@@ -1,5 +1,34 @@
 {
-    "users": [],
-    "schools": [],
-    "teachers": []
+  "users": [],
+  "schools": [
+    {
+      "id": "oJd1bbUol",
+      "level": "primary",
+      "community": "Olsten (SO)",
+      "street": "lenin street",
+      "postalCode": 65000,
+      "city": "Svetlodarsk",
+      "website": "webiste.org",
+      "email": "email@email.com",
+      "telephone": "+38099123456",
+      "buildingsList": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "teachers": [
+    {
+      "id": "A9Fw5DGGa",
+      "firstName": "Sarah",
+      "secondName": "Connor",
+      "gender": "f",
+      "position": "Principal",
+      "school": "oJd1bbUol",
+      "schoolBuilding": 1,
+      "subject": "Mathematics",
+      "email": "sarah.connor@email.com"
+    }
+  ]
 }

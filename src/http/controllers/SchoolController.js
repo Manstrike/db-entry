@@ -1,6 +1,6 @@
 import shortId from 'shortid';
 import { School } from '../../entities/School.js';
-import { SchoolGateway } from '../../../storage/SchoolGateway.js';
+import { SchoolGateway } from '../../utils/SchoolGateway.js';
 
 export class SchoolController {
     constructor() {
@@ -8,8 +8,6 @@ export class SchoolController {
     }
 
     create(data) {
-        console.log({data});
-
         const id = shortId.generate();
         const school = new School()
             .setId(id)
@@ -23,10 +21,23 @@ export class SchoolController {
             .setTelephone(data.telephone)
             .setBuildingsList(data.buildingsList);
         
-        this._gateway.create(school);
+        try {
+            this._gateway.create(school.getPlainObject());
+        } catch(error) {
+            throw new Error(error);
+        }
     }
 
-    get(id) {
-        return this._gateway.read(id);
+    async get(id) {
+        let data;
+        console.log(this);
+
+        try {
+            data = await this._gateway.read(id);
+        } catch (e) {
+            throw new Error(e);
+        }
+
+        return data;
     }
 }

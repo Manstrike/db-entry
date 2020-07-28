@@ -88,4 +88,19 @@ export class School {
     get buildingsList() {
         return this._buildingsList;
     }
+
+    getPlainObject() {
+        return {
+            id: this.id,
+            level: this.level,
+            community: this.community,
+            street: this.street,
+            postalCode: this.postalCode,
+            city: this.city,
+            website: this.website,
+            email: this.email,
+            telephone: this.telephone,
+            buildingsList: this.buildingsList
+        }
+    }
 }

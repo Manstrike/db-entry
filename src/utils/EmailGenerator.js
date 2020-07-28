@@ -1,7 +1,8 @@
 export class EmailGenerator {
-    static generate(firstName, lastName, email) {
+    static generate({ firstName, secondName, email }) {
         const emailDomain = email.split('@')[1];
 
-        return `${firstName}.${lastName}@${emailDomain}`;
+        return `${firstName}.${secondName}@${emailDomain}`
+            .toLowerCase();
     }
 }
