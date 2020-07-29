@@ -1,5 +1,11 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "pyY1sq7WF",
+      "password": "Password123",
+      "role": "employee"
+    }
+  ],
   "schools": [
     {
       "id": "oJd1bbUol",
@@ -11,6 +17,22 @@
       "website": "webiste.org",
       "email": "email@email.com",
       "telephone": "+38099123456",
+      "buildingsList": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "5zkSn7eti",
+      "level": "Elementary",
+      "community": "Olsten (SO)",
+      "street": "st. Lenin",
+      "postalCode": 65000,
+      "city": "Svetlodarsk",
+      "website": "school.website.com",
+      "email": "some.email@olsten.so",
+      "telephone": 88005553535,
       "buildingsList": [
         1,
         2,
@@ -29,6 +51,28 @@
       "schoolBuilding": 1,
       "subject": "Mathematics",
       "email": "sarah.connor@email.com"
+    },
+    {
+      "id": "Lrr7gObjE",
+      "firstName": "Sarah",
+      "secondName": "Connor",
+      "gender": "F",
+      "position": "teacher",
+      "school": "5zkSn7eti",
+      "schoolBuilding": 1,
+      "subject": "Maths",
+      "email": "sarah.connor@olsten.so"
+    },
+    {
+      "id": "ubPCorlh7",
+      "firstName": "Sarah",
+      "secondName": "Connor",
+      "gender": "F",
+      "position": "principal",
+      "school": "5zkSn7eti",
+      "schoolBuilding": 1,
+      "subject": "Maths",
+      "email": "sarah.connor@olsten.so"
     }
   ]
 }

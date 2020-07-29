@@ -1,15 +1,13 @@
-import shortId from 'shortid';
-import { School } from '../../entities/School.js';
-import { SchoolGateway } from '../../utils/SchoolGateway.js';
-
 export class SchoolController {
-    constructor() {
-        this._gateway = new SchoolGateway();
+    constructor({ gateway, shortId, entityFactory }) {
+        this._gateway = gateway;
+        this._entityFactory = entityFactory;
+        this._shortId = shortId;
     }
 
     create(data) {
-        const id = shortId.generate();
-        const school = new School()
+        const id = thi._shortId.generate();
+        const school = this._entityFactory.createSchool()
             .setId(id)
             .setLevel(data.level)
             .setCommunity(data.community)
@@ -19,25 +17,17 @@ export class SchoolController {
             .setWebsite(data.website)
             .setEmail(data.email)
             .setTelephone(data.telephone)
-            .setBuildingsList(data.buildingsList);
+            .setBuildingsList(data.buildingsList)
+            .getPlainObject();
         
         try {
-            this._gateway.create(school.getPlainObject());
+            this._gateway.create(school);
         } catch(error) {
             throw new Error(error);
         }
     }
 
     async get(id) {
-        let data;
-        console.log(this);
-
-        try {
-            data = await this._gateway.read(id);
-        } catch (e) {
-            throw new Error(e);
-        }
-
-        return data;
+        return await this._gateway.read(id);
     }
 }

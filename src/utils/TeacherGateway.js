@@ -8,16 +8,12 @@ export class TeacherGateway extends AbstractGateway {
     async create(teacher) {
         await this._readFile();
 
-        if (!this._db) {
-            throw new Error('no data was read!');
-        };
-
         this._db.teachers.push(teacher);
 
         return await this._writeFile();
     }
 
-    async get(id) {
+    async read(id) {
         let data = null;
 
         try {

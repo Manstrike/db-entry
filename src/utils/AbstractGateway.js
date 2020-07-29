@@ -11,6 +11,10 @@ export class AbstractGateway {
     async _readFile() {
         const data = await fs.readFile(this._fileName, 'utf-8');
         this._db = JSON.parse(data);
+
+        if (!this._db) {
+            throw new Error('no data was read!');
+        };
     }
 
     async _writeFile() {
