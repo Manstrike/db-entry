@@ -2,23 +2,23 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 
-import { EntityFactory } from './src/entities/EntityFactory.js';
+import { EntityFactory } from './src/utils/EntityFactory.js';
 import { IdGenerator } from './src/utils/IdGenerator.js';
 import { EmailGenerator } from './src/utils/EmailGenerator.js';
 
-import { SchoolController } from './src/http/controllers/SchoolController.js';
-import { TeacherController } from './src/http/controllers/TeacherController.js';
-import { UserController } from './src/http/controllers/UserController.js';
+import { SchoolController } from './src/school/SchoolController.js';
+import { TeacherController } from './src/teacher/TeacherController.js';
+import { UserController } from './src/user/UserController.js';
 
-import { SchoolRouter } from './src/http/routers/SchoolRouter.js';
-import { TeacherRouter } from './src/http/routers/TeacherRouter.js';
-import { UserRouter } from './src/http/routers/UserRouter.js';
+import { SchoolRouter } from './src/school/SchoolRouter.js';
+import { TeacherRouter } from './src/teacher/TeacherRouter.js';
+import { UserRouter } from './src/user/UserRouter.js';
 
 import { SchoolGateway } from './src/utils/SchoolGateway.js';
 import { TeacherGateway } from './src/utils/TeacherGateway.js';
 import { UserGateway } from './src/utils/UserGateway.js';
 
-import { Application } from './src/http/Application.js';
+import { Application } from './src/Application.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -68,7 +68,7 @@ const userRouter = new UserRouter({
     userController
 }).init();
 
-const application = new Application({
+new Application({
     app,
     schoolRouter,
     teacherRouter,

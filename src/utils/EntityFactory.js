@@ -1,6 +1,6 @@
-import { School } from './School.js';
-import { Teacher } from './Teacher.js';
-import { User } from './User.js'; 
+import { School } from '../school/School.js';
+import { Teacher } from '../teacher/Teacher.js';
+import { User } from '../user/User.js'; 
 
 export class EntityFactory {
     createUser() {

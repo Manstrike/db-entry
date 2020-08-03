@@ -1,14 +1,14 @@
-import { AbstractGateway } from "./AbstractGateway.js";
+import { AbstractGateway } from './AbstractGateway.js';
 
-export class SchoolGateway extends AbstractGateway {
+export class UserGateway extends AbstractGateway {
     constructor() {
         super();
     }
 
-    async create(school) {
+    async create(data) {
         await this._readFile();
 
-        this._db.schools.push(school);
+        this._db.users.push(data);
 
         return await this._writeFile();
     }
@@ -19,7 +19,7 @@ export class SchoolGateway extends AbstractGateway {
         try {
             await this._readFile();
 
-            data = this._db.schools.filter((item) => item.id === id);
+            data = this._db.users.filter((item) => item.id === id);
         } catch(e) {
             throw new Error('error while reading');
         }

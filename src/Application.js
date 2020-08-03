@@ -1,3 +1,5 @@
+const PORT = 5000;
+
 export class Application {
     constructor({ app, schoolRouter, teacherRouter, userRouter }) {
         this._app = app;
@@ -15,6 +17,6 @@ export class Application {
         this._app.use('/teacher', this._teacherRouter);
         this._app.use('/user', this._userRouter);
         
-        this._app.listen(3000, () => console.log('running'));
+        this._app.listen(PORT, () => console.log('running'));
     }
 }
