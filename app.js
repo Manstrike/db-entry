@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import cors from 'cors';
 
 import { EntityFactory } from './src/utils/EntityFactory.js';
 import { IdGenerator } from './src/utils/IdGenerator.js';
@@ -14,15 +15,16 @@ import { SchoolRouter } from './src/school/SchoolRouter.js';
 import { TeacherRouter } from './src/teacher/TeacherRouter.js';
 import { UserRouter } from './src/user/UserRouter.js';
 
-import { SchoolGateway } from './src/utils/SchoolGateway.js';
-import { TeacherGateway } from './src/utils/TeacherGateway.js';
-import { UserGateway } from './src/utils/UserGateway.js';
+import { SchoolGateway } from './src/school/SchoolGateway.js';
+import { TeacherGateway } from './src/teacher/TeacherGateway.js';
+import { UserGateway } from './src/user/UserGateway.js';
 
 import { Application } from './src/Application.js';
 
 const app = express();
 const __dirname = path.resolve();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public/css'));

@@ -38,4 +38,8 @@ export class TeacherController {
     async get(id) {
         return await this._teacherGateway.read(id);
     }
+
+    async getByBuilding(schoolId, building) {
+        return await this._teacherGateway.readByBuilding(schoolId, building);
+    }
 }

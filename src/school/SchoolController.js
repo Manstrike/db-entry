@@ -5,8 +5,19 @@ export class SchoolController {
         this._shortId = shortId;
     }
 
-    create(data) {
-        const id = thi._shortId.generate();
+    async create(data) {
+        console.log({data});
+
+        const id = this._shortId.generate();
+        console.log({id})
+        const buildings = this.createBuildingList(data.schoolBuildings);
+        
+        const website = data.website === ''
+            ? []
+            : data.website
+
+        console.log({buildings, website})
+
         const school = this._entityFactory.createSchool()
             .setId(id)
             .setLevel(data.level)
@@ -14,20 +25,37 @@ export class SchoolController {
             .setStreet(data.street)
             .setPostalCode(data.postalCode)
             .setCity(data.city)
-            .setWebsite(data.website)
+            .setWebsite(website)
             .setEmail(data.email)
             .setTelephone(data.telephone)
-            .setBuildingsList(data.buildingsList)
+            .setBuildingsList(buildings)
             .getPlainObject();
         
         try {
-            this._gateway.create(school);
+            await this._gateway.create(school);
         } catch(error) {
             throw new Error(error);
         }
     }
 
+    createBuildingList(buildingsString) {
+        if (buildingsString === '') return [];
+        return buildingsString
+            .split(',')
+            .map(item => {
+                return {id: this._shortId.generate(), name: item};
+            });
+    }
+
     async get(id) {
         return await this._gateway.read(id);
+    }
+
+    async getAll(){
+        return await this._gateway.readAll();
+    }
+
+    async getCommunities() {
+        return await this._gateway.readCommunities();
     }
 }

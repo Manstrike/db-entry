@@ -8,6 +8,17 @@ export class SchoolRouter {
     }
 
     init() {
+        router.get('/all', async (req, res) => {
+            const schools = await this._schoolController.getAll();
+            res.json(schools);
+        });
+
+        router.get('/communities', async (req, res) => {
+            const communities = await this._schoolController.getCommunities();
+            res.json(communities);
+        })
+
+
         router.get('/:id', async (req, res) => {
             if (!req.params.id) {
                 return res.sendStatus(400);
@@ -17,18 +28,15 @@ export class SchoolRouter {
             res.json(school);
         });
 
-        router.get('/create', (req, res) => {
-            res.render('./create-school/create-school-module');
-        });
-
-        router.post('/create', (req, res) => {
+        router.post('/create', async (req, res) => {
             if (!req.body) return res.sendStatus(400);
-        
+            console.log(req.body);
+
             try {
-                this._schoolController.create(req.body);
+                await this._schoolController.create(req.body);
                 res.sendStatus(200);
             } catch (e) {
-                res.json(e).sendStatus(500);
+                res.status(500).json(e);
             }
 
             return;

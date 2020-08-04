@@ -3,41 +3,45 @@
     {
       "id": "pyY1sq7WF",
       "password": "Password123",
-      "username" : "Rogalique",
+      "name": "Rogalique",
+      "role": "admin"
+    },
+    {
+      "id": "JJ1oVq9ve",
+      "name": "someLogidn",
+      "password": "somPassword",
+      "role": "employee"
+    },
+    {
+      "id": "6ClSsuPzH",
+      "name": "someLogin",
+      "password": "AnotherPass",
       "role": "employee"
     }
   ],
   "schools": [
     {
-      "id": "oJd1bbUol",
-      "level": "primary",
-      "community": "Olsten (SO)",
-      "street": "lenin street",
-      "postalCode": 65000,
-      "city": "Svetlodarsk",
-      "website": "webiste.org",
+      "id": "zdgTA9SKA",
+      "level": "Primary",
+      "community": "SZ",
+      "street": "Маршала Говорова",
+      "postalCode": "65009",
+      "city": "Одесса",
+      "website": [],
       "email": "email@email.com",
-      "telephone": "+38099123456",
       "buildingsList": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "id": "5zkSn7eti",
-      "level": "Elementary",
-      "community": "Olsten (SO)",
-      "street": "st. Lenin",
-      "postalCode": 65000,
-      "city": "Svetlodarsk",
-      "website": "school.website.com",
-      "email": "some.email@olsten.so",
-      "telephone": 88005553535,
-      "buildingsList": [
-        1,
-        2,
-        3
+        {
+          "id": "sadasd321",
+          "name": "Building1"
+        },
+        {
+          "id": "sadDDs32",
+          "name": " Building2"
+        },
+        {
+          "id": "PodsdW2",
+          "name": " Building3"
+        }
       ]
     }
   ],
@@ -75,5 +79,27 @@
       "subject": "Maths",
       "email": "sarah.connor@olsten.so"
     }
+  ],
+  "communities": [
+    "ZH",
+    "BE",
+    "LU",
+    "UR",
+    "SZ",
+    "OW",
+    "NW",
+    "GL",
+    "ZG",
+    "FR",
+    "SO",
+    "BS",
+    "BL",
+    "SH",
+    "AR",
+    "AI",
+    "SG",
+    "GR",
+    "AG",
+    "TG"
   ]
 }

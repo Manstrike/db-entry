@@ -1,4 +1,4 @@
-import { AbstractGateway } from './AbstractGateway.js';
+import { AbstractGateway } from '../utils/AbstractGateway.js';
 
 export class UserGateway extends AbstractGateway {
     constructor() {
@@ -13,13 +13,17 @@ export class UserGateway extends AbstractGateway {
         return await this._writeFile();
     }
 
-    async read(id) {
+    async read({login, id}) {
         let data = null;
 
         try {
             await this._readFile();
-
-            data = this._db.users.filter((item) => item.id === id);
+            
+            if (id) {
+                data = this._db.users.filter((item) => item.id === id);
+            } else {
+                data = this._db.users.filter((item) => item.name === login);
+            }
         } catch(e) {
             throw new Error('error while reading');
         }

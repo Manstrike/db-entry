@@ -26,7 +26,7 @@ export class User {
         return this._password;
     }
 
-    setRole(value) {
+    setRole(value = 'employee') {
         this._role = value;
         return this;
     }

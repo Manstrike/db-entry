@@ -1,4 +1,4 @@
-import { AbstractGateway } from "./AbstractGateway.js";
+import { AbstractGateway } from "../utils/AbstractGateway.js";
 
 export class SchoolGateway extends AbstractGateway {
     constructor() {
@@ -24,6 +24,32 @@ export class SchoolGateway extends AbstractGateway {
             throw new Error('error while reading');
         }
 
+        return data;
+    }
+
+    async readAll() {
+        let data = null;
+
+        try {
+            await this._readFile();
+            data = [...this._db.schools];
+        } catch (e) {
+            throw new Error('error while reading');
+        }
+
+        return data;
+    }
+
+    async readCommunities() {
+        let data = null;
+
+        try {
+            await this._readFile();
+            data = [...this._db.communities];
+        } catch (e) {
+            throw new Error('error while reading');
+        }
+        
         return data;
     }
 }

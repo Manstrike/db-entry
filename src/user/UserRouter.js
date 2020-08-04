@@ -12,7 +12,7 @@ export class UserRouter {
             if (!req.body) return res.sendStatus(400);
 
             try {
-                await this._userController.create(req.body);
+                await this._userController.createUser(req.body);
             } catch (e) {
                 throw new Error('Something went wrong in UserRouter');
             }
@@ -20,12 +20,12 @@ export class UserRouter {
             return res.sendStatus(200);
         });
 
-        router.get('/:id', async (req, res) => {
-            if (!req.params.id) return res.sendStatus(400);
+        router.get('/:login', async (req, res) => {
+            if (!req.params.login) return res.sendStatus(400);
 
             let data = null;
             try {
-                data = await this._userController.get(req.params.id);
+                data = await this._userController.getUser(req.params.login);
             } catch (e) {
                 throw new Error('Something went wrong in UserRouter');
             }

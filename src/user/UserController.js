@@ -5,11 +5,11 @@ export class UserController {
         this._entityFactory = entityFactory;
     }
 
-    create(data) {
+    createUser(data) {
         const id = this._shortId.generate();
         const user = this._entityFactory.createUser()
             .setId(id)
-            .setName(data.username)
+            .setName(data.name)
             .setPassword(data.password)
             .setRole(data.role)
             .getPlainObject();
@@ -21,7 +21,7 @@ export class UserController {
         }
     }
 
-    async get(id) {
-        return await this._userGateway.read(id);
+    async getUser(login) {
+        return await this._userGateway.read({login});
     }
 }
