@@ -55,4 +55,15 @@ export class UserGateway {
 
         return await connection.execute(query);
     }
+
+    async getAllUsers() {
+        const connection = await this._dbConnection.getConnection();
+        
+        const query = `
+            SELECT *
+            FROM users
+        `;
+
+        return await connection.execute(query);
+    }
 }

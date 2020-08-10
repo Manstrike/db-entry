@@ -47,6 +47,17 @@ export class UserRouter {
             res.json(data);
         });
 
+        router.get('/all', async (req, res) => {
+            let data;
+            try {
+                data = await this._userController.getAllUsers();
+            } catch (error) {
+                return res.sendStatus(500).json(error);
+            }
+
+            return res.json(data);
+        })
+
         router.get('/:id', async (req, res) => {
             if (!req.params.id) return res.sendStatus(400);
 

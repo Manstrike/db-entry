@@ -8,6 +8,10 @@ export class UserController {
         this._entityFactory = entityFactory;
     }
 
+    async getAllUsers() {
+        return this._userGateway.getAllUsers();
+    }
+
     async createUser(data) {
         const user = this._entityFactory.createUser()
             .setName(data.name)
