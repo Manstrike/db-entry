@@ -1,16 +1,20 @@
-import { AbstractGateway } from "../utils/AbstractGateway.js";
-
-export class SchoolGateway extends AbstractGateway {
-    constructor() {
-        super();
+export class SchoolGateway {
+    constructor({ dbConnection }) {
+        this._dbConnection = dbConnection;
     }
 
     async create(school) {
-        await this._readFile();
+        console.log({school})
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            INSERT schools (level, community, street, postalCode, city, telephone, website, email)
+            VALUES (
+                '${school.level}', ${school.community}, '${school.street}',
+                ${school.postalCode}, '${school.city}',' ${school.telephone}', '${school.website}', '${school.email}'
+                )
+        `;
 
-        this._db.schools.push(school);
-
-        return await this._writeFile();
+        return await connection.execute(query);
     }
 
     async read(id) {

@@ -1,13 +1,4 @@
 export class User {
-    setId(value) {
-        this._id = value;
-        return this;
-    }
-
-    get id() {
-        return this._id;
-    }
-
     setName(value) {
         this._name = value;
         return this;
@@ -37,7 +28,6 @@ export class User {
 
     getPlainObject() {
         return {
-            id: this.id,
             name: this.name,
             password: this.password,
             role: this.role

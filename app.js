@@ -18,8 +18,11 @@ import { UserRouter } from './src/user/UserRouter.js';
 import { SchoolGateway } from './src/school/SchoolGateway.js';
 import { TeacherGateway } from './src/teacher/TeacherGateway.js';
 import { UserGateway } from './src/user/UserGateway.js';
+import { UserSessionsGateway } from './src/user/UserSessionsGateway.js';
 
 import { Application } from './src/Application.js';
+import { DatabaseConnection } from './src/utils/DatabaseConnection.js';
+import { SchoolBuildingsGateway } from './src/school/SchoolBuildingsGateway.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -32,15 +35,21 @@ app.use(express.static(__dirname + '/public/css'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/src/modules/'));
 
+const dbConnection = new DatabaseConnection();
+
 const entityFactory = new EntityFactory();
-const schoolGateway = new SchoolGateway();
+
+const schoolGateway = new SchoolGateway({dbConnection});
+const schoolBuildingsGateway = new SchoolBuildingsGateway({dbConnection});
 const teacherGateway = new TeacherGateway();
-const userGateway = new UserGateway();
+const userGateway = new UserGateway({dbConnection});
+const userSessionsGateway = new UserSessionsGateway({dbConnection});
 const idGenerator = new IdGenerator();
 const emailGenerator = new EmailGenerator();
 
 const schoolController = new SchoolController({
     gateway: schoolGateway,
+    schoolBuildingsGateway,
     shortId: idGenerator,
     entityFactory
 });
@@ -54,6 +63,7 @@ const teacherController = new TeacherController({
 const userController = new UserController({
     shortId: idGenerator,
     userGateway,
+    userSessionsGateway,
     entityFactory
 });
 

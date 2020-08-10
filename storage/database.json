@@ -43,6 +43,26 @@
           "name": " Building3"
         }
       ]
+    },
+    {
+      "id": "U80lGw1xe",
+      "level": "The Highest Level",
+      "community": "ZG",
+      "street": "Tsurix st.",
+      "postalCode": "1337",
+      "city": "Berlin",
+      "website": "http://some.website.org",
+      "email": "berlin.high.school@brkh.com",
+      "buildingsList": [
+        {
+          "id": "5ZixIqXnhi",
+          "name": "North Building"
+        },
+        {
+          "id": "4n5zcUOn8y",
+          "name": " South Building"
+        }
+      ]
     }
   ],
   "teachers": [
@@ -78,6 +98,69 @@
       "schoolBuilding": 1,
       "subject": "Maths",
       "email": "sarah.connor@olsten.so"
+    },
+    {
+      "id": "cq384QkqQ",
+      "firstName": "NotSarah",
+      "gender": "F",
+      "position": "",
+      "subject": "",
+      "email": "notsarah.connor@email.com"
+    },
+    {
+      "id": "pe734LEMT",
+      "firstName": "Definetly",
+      "secondName": "NotSarah",
+      "gender": "F",
+      "position": "",
+      "school": "zdgTA9SKA",
+      "schoolBuilding": "sadasd321",
+      "subject": "",
+      "email": "definetly.notsarah@email.com"
+    },
+    {
+      "id": "H-WBSqmS0",
+      "firstName": "One",
+      "secondName": "Teacher",
+      "gender": "F",
+      "position": "",
+      "school": "zdgTA9SKA",
+      "schoolBuilding": "sadasd321",
+      "subject": "",
+      "email": "one.teacher@email.com"
+    },
+    {
+      "id": "HkTQk9g2c",
+      "firstName": "Male",
+      "secondName": "Teacher",
+      "gender": "M",
+      "position": "",
+      "school": "zdgTA9SKA",
+      "schoolBuilding": "sadasd321",
+      "subject": "",
+      "email": "male.teacher@email.com"
+    },
+    {
+      "id": "NP76oR2cK",
+      "firstName": "Male",
+      "secondName": "Teacher",
+      "gender": "M",
+      "position": "",
+      "school": "zdgTA9SKA",
+      "schoolBuilding": "sadasd321",
+      "subject": "",
+      "email": "male.teacher@email.com"
+    },
+    {
+      "id": "lIwv5L3H6",
+      "firstName": "Sarah",
+      "secondName": "Connor",
+      "gender": "F",
+      "position": "",
+      "school": "U80lGw1xe",
+      "schoolBuilding": "5ZixIqXnhi",
+      "subject": "",
+      "email": "sarah.connor@brkh.com"
     }
   ],
   "communities": [

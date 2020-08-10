@@ -8,6 +8,9 @@ export class TeacherGateway extends AbstractGateway {
     async create(teacher) {
         await this._readFile();
 
+        const isEntryExists = await this.readByEmail(teacher.email);
+        if (isEntryExists.length !== 0) throw new Error('Teacher exists!');
+
         this._db.teachers.push(teacher);
 
         return await this._writeFile();
@@ -49,6 +52,20 @@ export class TeacherGateway extends AbstractGateway {
             await this._readFile();
             
             data = this._db.teachers.filter((item) => item.school === id);
+        } catch(e) {
+            throw new Error('error while reading: ' + e);
+        }
+
+        return data;
+    }
+
+    async readByEmail(email) {
+        let data = null;
+
+        try {
+            await this._readFile();
+            
+            data = this._db.teachers.filter((item) => item.email === email);
         } catch(e) {
             throw new Error('error while reading: ' + e);
         }

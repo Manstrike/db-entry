@@ -9,12 +9,20 @@ export class TeacherController {
 
     async create(data) {
         try {
-            const [ school ] = await this._schoolGateway.read(data.school);
-            const teacherEmail = this._emailGenerator.generate({
-                firstName: data.firstName,
-                secondName: data.secondName,
-                email: school.email,
-            });
+            if (!data.school && !data.building) throw new Error('Neither school of building was provided');
+            
+            //TODO rm
+            let teacherEmail;
+            if (!data.email) {
+                const [ school ] = await this._schoolGateway.read(data.school);
+                teacherEmail = this._emailGenerator.generate({
+                    firstName: data.firstName,
+                    secondName: data.secondName,
+                    email: school.email,
+                });
+            } else {
+                teacherEmail = data.email;
+            }
             
             const id = this._shortId.generate();
             const teacher = this._entityFactory.createTeacher()
@@ -24,7 +32,7 @@ export class TeacherController {
                 .setGender(data.gender)
                 .setPosition(data.position)
                 .setSchool(data.school)
-                .setSchoolBuilding(data.schoolBuilding)
+                .setSchoolBuilding(data.building)
                 .setSubject(data.subject)
                 .setEmail(teacherEmail)
                 .getPlainObject();

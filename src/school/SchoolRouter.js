@@ -30,7 +30,6 @@ export class SchoolRouter {
 
         router.post('/create', async (req, res) => {
             if (!req.body) return res.sendStatus(400);
-            console.log(req.body);
 
             try {
                 await this._schoolController.create(req.body);

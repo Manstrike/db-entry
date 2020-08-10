@@ -1,40 +1,40 @@
 export class SchoolController {
-    constructor({ gateway, shortId, entityFactory }) {
+    constructor({ gateway, schoolBuildingsGateway, shortId, entityFactory }) {
         this._gateway = gateway;
         this._entityFactory = entityFactory;
+        this._schoolBuildingsGateway = schoolBuildingsGateway;
         this._shortId = shortId;
     }
 
     async create(data) {
-        console.log({data});
-
-        const id = this._shortId.generate();
-        console.log({id})
-        const buildings = this.createBuildingList(data.schoolBuildings);
-        
-        const website = data.website === ''
-            ? []
-            : data.website
-
-        console.log({buildings, website})
+        console.log({data})
+        //const buildings = this.createBuildingList(data.schoolBuildings);
 
         const school = this._entityFactory.createSchool()
-            .setId(id)
             .setLevel(data.level)
             .setCommunity(data.community)
             .setStreet(data.street)
             .setPostalCode(data.postalCode)
             .setCity(data.city)
-            .setWebsite(website)
+            .setWebsite(data.website)
             .setEmail(data.email)
             .setTelephone(data.telephone)
-            .setBuildingsList(buildings)
+            //.setBuildingsList(buildings)
             .getPlainObject();
-        
-        try {
-            await this._gateway.create(school);
-        } catch(error) {
-            throw new Error(error);
+        console.log('school in ctrl', school)
+        const schoolId = await this._gateway.create(school);
+
+        console.log({schoolId}) //TODO Check what returns!
+
+        if (schoolId && data.schoolBuildings) {
+            //const buildingIds = [];
+
+            for (const building of data.schoolBuildings.split(',')) {
+                const buildingId = await this._schoolBuildingsGateway.setBuilding(schoolId, building);
+                //buildingIds.push(buildingId);
+            }
+
+            //await this._gateway.setBuildings(schoolId, buildingIds);
         }
     }
 

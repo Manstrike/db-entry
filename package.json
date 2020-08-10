@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "nodemon --ignore storage/ app.js"
+    "debug": "nodemon --ignore storage/ -r dotenv/config app.js",
+    "migrate": "node node_modules/db-migrate/bin/db-migrate",
+    "start": "node -r dotenv/config app.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,8 +22,13 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "db-migrate": "^0.11.11",
+    "db-migrate-mysql": "^2.1.1",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.3",
     "express": "^4.17.1",
+    "moment": "^2.27.0",
+    "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "shortid": "^2.2.15"
   }
