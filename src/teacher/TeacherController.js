@@ -8,46 +8,41 @@ export class TeacherController {
     }
 
     async create(data) {
-        try {
-            if (!data.school && !data.building) throw new Error('Neither school of building was provided');
-            
-            //TODO rm
-            let teacherEmail;
-            if (!data.email) {
-                const [ school ] = await this._schoolGateway.read(data.school);
-                teacherEmail = this._emailGenerator.generate({
-                    firstName: data.firstName,
-                    secondName: data.secondName,
-                    email: school.email,
-                });
-            } else {
-                teacherEmail = data.email;
-            }
-            
-            const id = this._shortId.generate();
-            const teacher = this._entityFactory.createTeacher()
-                .setId(id)
-                .setFirstName(data.firstName)
-                .setSecondName(data.secondName)
-                .setGender(data.gender)
-                .setPosition(data.position)
-                .setSchool(data.school)
-                .setSchoolBuilding(data.building)
-                .setSubject(data.subject)
-                .setEmail(teacherEmail)
-                .getPlainObject();
-    
-            this._teacherGateway.create(teacher);
-        } catch(e) {
-            console.warn(e);
+        if (!data.school && !data.building) throw new Error('Neither school of building was provided');
+        
+        const teacher = this._entityFactory.createTeacher()
+            .setFirstName(data.firstName)
+            .setSecondName(data.secondName)
+            .setGender(data.gender)
+            .setPosition(data.position)
+            .setSchool(data.school)
+            .setSchoolBuilding(data.school_building)
+            .setSubject(data.subject)
+            .setEmail(data.email)
+            .getPlainObject();
+
+        if (data.id) {
+            const rowExists = await this.get(data.id);
+            teacher.id = data.id;
+            return await this._teacherGateway.update(teacher);
         }
+        
+        return await this._teacherGateway.create(teacher);
     }
 
     async get(id) {
         return await this._teacherGateway.read(id);
     }
 
+    async findByEmail(email) {
+        return await this._teacherGateway.readByEmail(email);
+    }
+
     async getByBuilding(schoolId, building) {
         return await this._teacherGateway.readByBuilding(schoolId, building);
+    }
+
+    async getBySchool(schoolId) {
+        return await this._teacherGateway.readBySchool(schoolId);
     }
 }

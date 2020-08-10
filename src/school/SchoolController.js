@@ -7,9 +7,6 @@ export class SchoolController {
     }
 
     async create(data) {
-        console.log({data})
-        //const buildings = this.createBuildingList(data.schoolBuildings);
-
         const school = this._entityFactory.createSchool()
             .setLevel(data.level)
             .setCommunity(data.community)
@@ -19,43 +16,37 @@ export class SchoolController {
             .setWebsite(data.website)
             .setEmail(data.email)
             .setTelephone(data.telephone)
-            //.setBuildingsList(buildings)
             .getPlainObject();
-        console.log('school in ctrl', school)
-        const schoolId = await this._gateway.create(school);
+        const {insertId} = await this._gateway.create(school);
 
-        console.log({schoolId}) //TODO Check what returns!
-
-        if (schoolId && data.schoolBuildings) {
-            //const buildingIds = [];
-
-            for (const building of data.schoolBuildings.split(',')) {
-                const buildingId = await this._schoolBuildingsGateway.setBuilding(schoolId, building);
-                //buildingIds.push(buildingId);
+        if (insertId && data.schoolBuildings) {
+            for (const building of data.schoolBuildings) {
+                await this._schoolBuildingsGateway.setBuilding(insertId, building);
             }
-
-            //await this._gateway.setBuildings(schoolId, buildingIds);
         }
-    }
-
-    createBuildingList(buildingsString) {
-        if (buildingsString === '') return [];
-        return buildingsString
-            .split(',')
-            .map(item => {
-                return {id: this._shortId.generate(), name: item};
-            });
     }
 
     async get(id) {
         return await this._gateway.read(id);
     }
 
-    async getAll(){
-        return await this._gateway.readAll();
+    async getAll() {
+        const result = [];
+        const schools = await this._gateway.readAll();
+        for (const school of schools) {
+            const schoolWithBuildings = school;
+            schoolWithBuildings.buildingsList = await this.getBuildings(school.id);
+            result.push(schoolWithBuildings);
+        }
+
+        return result; 
     }
 
     async getCommunities() {
         return await this._gateway.readCommunities();
+    }
+
+    async getBuildings(schoolId) {
+        return await this._schoolBuildingsGateway.getAllBuildings(schoolId);
     }
 }

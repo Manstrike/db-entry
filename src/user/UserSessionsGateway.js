@@ -3,33 +3,33 @@ export class UserSessionsGateway {
         this._dbConnection = dbConnection;
     }
     async setStart(userId, time) {
+        console.log({userId, time})
         const connection = await this._dbConnection.getConnection();
         const query = `
-            UPDATE user_sessions
-            SET started_at = '${time}'
-            WHERE user_id = ${userId}
+            INSERT user_sessions (user_id, started_at)
+            VALUES (${userId}, '${time}')
         `;
 
         return await connection.execute(query);
     }
 
-    async setFinish(userId, time) {
+    async setFinish(rowId, time) {
         const connection = await this._dbConnection.getConnection();
         const query = `
             UPDATE user_sessions
             SET finished_at = '${time}'
-            WHERE user_id = ${userId}
-        `;
+            WHERE id = ${rowId}
+        `
 
         return await connection.execute(query);
     }
 
-    async setSessionLength(userId, length) {
+    async setSessionLength(id, length) {
         const connection = await this._dbConnection.getConnection();
         const query = `
             UPDATE user_sessions
             SET session_length = '${length}'
-            WHERE user_id = ${userId}
+            WHERE id = ${id}
         `;
 
         return await connection.execute(query);
@@ -48,17 +48,27 @@ export class UserSessionsGateway {
         return rows;
     }
 
+    async getAllSessions() {
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM user_sessions
+        `;
+
+        const [ rows ] = await connection.execute(query);
+
+        return rows;
+    }
+
     async getLastStartTime(userId) {
         const connection = await this._dbConnection.getConnection();
-
         const query = `
-            SELECT MAX(started_at)
+            SELECT id, started_at
             FROM user_sessions
-            WHERE user_id = ${userId} AND finished_at = null
+            WHERE user_id = ${userId} AND finished_at IS NULL
         `;
 
         const [rows] = await connection.execute(query);
-
         return rows[0];
     }
 }

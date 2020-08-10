@@ -41,7 +41,7 @@ const entityFactory = new EntityFactory();
 
 const schoolGateway = new SchoolGateway({dbConnection});
 const schoolBuildingsGateway = new SchoolBuildingsGateway({dbConnection});
-const teacherGateway = new TeacherGateway();
+const teacherGateway = new TeacherGateway({dbConnection});
 const userGateway = new UserGateway({dbConnection});
 const userSessionsGateway = new UserSessionsGateway({dbConnection});
 const idGenerator = new IdGenerator();

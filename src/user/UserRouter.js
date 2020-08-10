@@ -14,10 +14,37 @@ export class UserRouter {
             try {
                 await this._userController.createUser(req.body);
             } catch (e) {
-                throw new Error('Something went wrong in UserRouter');
+                return res.status(500).json(e);
             }
 
             return res.sendStatus(200);
+        });
+
+        router.get('/allSessions', async (req, res) => {
+            let data = null;
+
+            try {
+                data = await this._userController.getAllSessions();
+            } catch (error) {
+                return res.status(500).json(error);
+            }
+
+            return res.json(data);
+        });
+
+        router.post('/login', async (req,res) => {
+            const { name, password } = req.body;
+            if (!name) return res.sendStatus(400);
+
+            let data;
+
+            try {
+                data = await this._userController.login(name);
+            } catch (error) {   
+                return res.sendStatus(500).json(error);
+            }
+
+            res.json(data);
         });
 
         router.get('/:id', async (req, res) => {
@@ -27,7 +54,7 @@ export class UserRouter {
             try {
                 data = await this._userController.getUser(req.params.id);
             } catch (e) {
-                throw new Error('Something went wrong in UserRouter');
+                return res.status(500).json(e);
             }
 
             return res.json(data);
@@ -38,10 +65,12 @@ export class UserRouter {
             if (!userId || !startTime) return res.sendStatus(400);
         
             try {
-                await this._userController.setUserStartToWork(userId, startTime);
+                await this._userController.userStartToWork(userId, startTime);
             } catch (error) {
-                throw new Error('Something happened: ' + error);
+                return res.status(500).json(error);
             }
+
+            res.sendStatus(200);
         });
 
         router.post('/time/finish', async (req, res) => {
@@ -49,10 +78,12 @@ export class UserRouter {
             if (!userId || !finishTime) return res.sendStatus(400);
         
             try {
-                await this._userController.setUserFinishToWork(userId, finishTime);
+                await this._userController.userFinishToWork(userId, finishTime);
             } catch (error) {
-                throw new Error('Something happened: ' + error);
+                return res.status(500).json(error);
             }
+
+            res.sendStatus(200);
         });
 
         return router;

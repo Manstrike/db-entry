@@ -1,5 +1,4 @@
 export class School {
-
     setLevel(value) {
         this._level = value;
         return this;
@@ -27,7 +26,7 @@ export class School {
         return this._street;
     }
 
-    setPostalCode(value) {
+    setPostalCode(value = null) {
         this._postalCode = value;
         return this;
     }
@@ -45,7 +44,7 @@ export class School {
         return this._city;
     }
 
-    setWebsite(value = '') {
+    setWebsite(value = null) {
         this._website = value;
         return this;
     }
@@ -63,22 +62,13 @@ export class School {
         return this._email;
     }
 
-    setTelephone(value = '') {
+    setTelephone(value = null) {
         this._telephone = value;
         return this;
     }
 
     get telephone() {
         return this._telephone;
-    }
-
-    setBuildingsList(value = []) {
-        this._buildingsList = value;
-        return this;
-    }
-
-    get buildingsList() {
-        return this._buildingsList;
     }
 
     getPlainObject() {
@@ -91,7 +81,6 @@ export class School {
             website: this.website,
             email: this.email,
             telephone: this.telephone,
-            buildingsList: this.buildingsList
         }
     }
 }

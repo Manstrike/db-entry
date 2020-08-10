@@ -16,6 +16,11 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db) {
     return db.createTable('user_sessions', {
+        id: {
+            type: 'int',
+            primaryKey: true,
+            autoIncrement: true,
+        },
         user_id: {
             type: 'int',
             notNull: true,
@@ -31,15 +36,12 @@ exports.up = function(db) {
         },
         started_at: {
             type: 'string',
-            notNull: true,
         },
         finished_at: {
             type: 'string',
-            notNull: true,
         },
         session_length: {
             type: 'string',
-            notNull: true,
         }
     });
 };

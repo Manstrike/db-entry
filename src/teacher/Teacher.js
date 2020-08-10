@@ -1,13 +1,4 @@
 export class Teacher {
-    setId(value) {
-        this._id = value;
-        return this;
-    }
-
-    get id() {
-        return this._id;
-    }
-
     setFirstName(value) {
         this._firstName = value;
         return this;
@@ -35,7 +26,7 @@ export class Teacher {
         return this._gender;
     }
 
-    setPosition(value) {
+    setPosition(value = null) {
         this._position = value;
         return this;
     }
@@ -53,7 +44,7 @@ export class Teacher {
         return this._school;
     }
 
-    setSchoolBuilding(value) {
+    setSchoolBuilding(value = null) {
         this._schoolBuilding = value;
         return this;
     }
@@ -62,7 +53,7 @@ export class Teacher {
         return this._schoolBuilding;
     }
 
-    setSubject(value) {
+    setSubject(value = null) {
         this._subject = value;
         return this;
     }
@@ -82,7 +73,6 @@ export class Teacher {
 
     getPlainObject() {
         return {
-            id: this.id,
             firstName: this.firstName,
             secondName: this.secondName,
             gender: this.gender,

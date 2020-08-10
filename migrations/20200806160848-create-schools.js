@@ -49,7 +49,8 @@ exports.up = function(db) {
           type: 'string'
         },
         email: {
-          type: 'string'
+          type: 'string',
+          notNull: true,
         }
       },
       ifNotExists: true

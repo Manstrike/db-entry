@@ -22,6 +22,10 @@ export class UserController {
         }
     }
 
+    async login(name) {
+        return await this._userGateway.readByName(name);
+    }
+
     async getUser(id) {
         return await this._userGateway.read(id);
     }
@@ -31,17 +35,23 @@ export class UserController {
     }
 
     async userFinishToWork(userId, finishedTime) {
-        const startedAt = await this._userSessionsGateway.getLastStartTime(userId);
-        await this._userSessionsGateway.setFinish(userId, finishedTime);
+        const { id, started_at } = await this._userSessionsGateway.getLastStartTime(userId);
+        await this._userSessionsGateway.setFinish(id, finishedTime);
 
-        const sessionLength = await this._calculateWorkingTime(startedAt, finishedAt);
-        await this._userSessionsGateway.setSessionLength(userId, sessionLength);
+        const sessionLength = await this._calculateWorkingTime(started_at, finishedTime);
+        return await this._userSessionsGateway.setSessionLength(id, sessionLength);
+    }
+
+    async getAllSessions() {
+        return await this._userSessionsGateway.getAllSessions();
     }
 
     async _calculateWorkingTime(userStartedAt, userFinishedAt) {
         const startAt = moment(userStartedAt);
         const finishAt = moment(userFinishedAt);
-        return finishAt.subtract(startAt);
+
+        const duration = moment.duration(finishAt.diff(startAt));
+        return duration.asHours();
     }
 }
 

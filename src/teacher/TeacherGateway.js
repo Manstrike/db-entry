@@ -1,75 +1,89 @@
 import { AbstractGateway } from "../utils/AbstractGateway.js";
 
-export class TeacherGateway extends AbstractGateway {
-    constructor() {
-        super();
+export class TeacherGateway {
+    constructor({ dbConnection }) {
+        this._dbConnection = dbConnection;
     }
 
     async create(teacher) {
-        await this._readFile();
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            INSERT teachers (firstName, secondName, gender, position, school, school_building, subject, email)
+            VALUES (
+                '${teacher.firstName}', '${teacher.secondName}', '${teacher.gender}',
+                '${teacher.position}', ${teacher.school}, ${teacher.schoolBuilding}, 
+                '${teacher.subject}', '${teacher.email}'
+            )
+        `;
 
-        const isEntryExists = await this.readByEmail(teacher.email);
-        if (isEntryExists.length !== 0) throw new Error('Teacher exists!');
+        return await connection.execute(query);
+    }
 
-        this._db.teachers.push(teacher);
+    async update(teacher) {
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            UPDATE teachers 
+            SET
+                firstName = '${teacher.firstName}',
+                secondName = '${teacher.secondName}',
+                gender = '${teacher.gender}',
+                position = '${teacher.position}',
+                school = ${teacher.school},
+                school_building = ${teacher.schoolBuilding},
+                subject = '${teacher.subject}',
+                email = '${teacher.email}'
+            WHERE id = ${teacher.id}
+        `;
 
-        return await this._writeFile();
+        return await connection.execute(query);
     }
 
     async read(id) {
-        let data = null;
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM teachers
+            WHERE id = ${id}
+        `;
 
-        try {
-            await this._readFile();
-            
-            data = this._db.teachers.filter((item) => item.id === id);
-        } catch(e) {
-            throw new Error('error while reading: ' + e);
-        }
-
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows[0];
     }
 
     async readByBuilding(schoolId, building) {
-        let data = null;
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM teachers
+            WHERE   school = ${schoolId} 
+                AND school_building = ${building}
+        `;
 
-        try {
-            await this._readFile();
-            
-            data = this._db.teachers.filter((item) => item.school === schoolId && item.schoolBuilding == building);
-        } catch(e) {
-            throw new Error('error while reading: ' + e);
-        }
-        console.log({schoolId, building});
-        console.log({data});
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows;
     }
 
-    async readBySchool(id) {
-        let data = null;
+    async readBySchool(schoolId) {
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM teachers
+            WHERE   school = ${schoolId} 
+        `;
 
-        try {
-            await this._readFile();
-            
-            data = this._db.teachers.filter((item) => item.school === id);
-        } catch(e) {
-            throw new Error('error while reading: ' + e);
-        }
-
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows;
     }
 
     async readByEmail(email) {
-        let data = null;
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM teachers
+            WHERE email = ${email} 
+        `;
 
-        try {
-            await this._readFile();
-            
-            data = this._db.teachers.filter((item) => item.email === email);
-        } catch(e) {
-            throw new Error('error while reading: ' + e);
-        }
-
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows[0];
     }
 }

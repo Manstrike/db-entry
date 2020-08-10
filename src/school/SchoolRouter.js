@@ -9,15 +9,14 @@ export class SchoolRouter {
 
     init() {
         router.get('/all', async (req, res) => {
-            const schools = await this._schoolController.getAll();
+            const schools = await this._schoolController.getAll();  
             res.json(schools);
         });
 
         router.get('/communities', async (req, res) => {
             const communities = await this._schoolController.getCommunities();
             res.json(communities);
-        })
-
+        });
 
         router.get('/:id', async (req, res) => {
             if (!req.params.id) {
@@ -25,7 +24,7 @@ export class SchoolRouter {
             }
         
             const school = await this._schoolController.get(req.params.id);
-            res.json(school);
+            return res.json(school);
         });
 
         router.post('/create', async (req, res) => {

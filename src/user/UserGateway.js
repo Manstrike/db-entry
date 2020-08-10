@@ -8,7 +8,7 @@ export class UserGateway {
         const {name, password} = data;
         const role = data.role ? data.role : 'employee';
         const query = `
-            INSERT users(password, name, role)\n
+            INSERT users(name, password, role)
             VALUES('${name}', '${password}', '${role}')
         `;
 
@@ -26,7 +26,20 @@ export class UserGateway {
 
         const [rows] = await connection.execute(query);
         
-        return rows;
+        return rows[0];
+    }
+
+    async readByName(name) {
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM users
+            WHERE name = '${name}'    
+        `;
+
+        const [rows] = await connection.execute(query);
+        
+        return rows[0];
     }
 
     async update({id}, userObject) {

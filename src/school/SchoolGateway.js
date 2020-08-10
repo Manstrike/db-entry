@@ -4,56 +4,51 @@ export class SchoolGateway {
     }
 
     async create(school) {
-        console.log({school})
         const connection = await this._dbConnection.getConnection();
         const query = `
             INSERT schools (level, community, street, postalCode, city, telephone, website, email)
             VALUES (
                 '${school.level}', ${school.community}, '${school.street}',
-                ${school.postalCode}, '${school.city}',' ${school.telephone}', '${school.website}', '${school.email}'
-                )
+                ${school.postalCode}, '${school.city}',' ${school.telephone}', 
+                '${school.website}', '${school.email}'
+            )
         `;
+        const [ rows ] = await connection.execute(query);
 
-        return await connection.execute(query);
+        return rows;
     }
 
     async read(id) {
-        let data = null;
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM schools
+            WHERE id = ${id}
+        `;
 
-        try {
-            await this._readFile();
-
-            data = this._db.schools.filter((item) => item.id === id);
-        } catch(e) {
-            throw new Error('error while reading');
-        }
-
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows[0];
     }
 
     async readAll() {
-        let data = null;
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM schools
+        `;
 
-        try {
-            await this._readFile();
-            data = [...this._db.schools];
-        } catch (e) {
-            throw new Error('error while reading');
-        }
-
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows;
     }
 
     async readCommunities() {
-        let data = null;
+        const connection = await this._dbConnection.getConnection();
+        const query = `
+            SELECT *
+            FROM communities
+        `;
 
-        try {
-            await this._readFile();
-            data = [...this._db.communities];
-        } catch (e) {
-            throw new Error('error while reading');
-        }
-        
-        return data;
+        const [ rows ] = await connection.execute(query);
+        return rows;
     }
 }

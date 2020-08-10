@@ -8,17 +8,13 @@ export class TeacherRouter {
     }
 
     init() {
-        router.get('/create', (req, res) => {
-            res.render('./create-person/create-person-module');
-        });
-
         router.post('/create', async (req, res) => {
             if (!req.body) return res.sendStatus(400);
         
             try {
                 await this._teacherController.create(req.body);
             } catch (e) {
-                return res.status(500).json('broken');
+                return res.status(500).json(e);
             }
 
             return res.sendStatus(200);
