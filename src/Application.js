@@ -1,4 +1,4 @@
-const PORT = 5000;
+const PORT = 80;
 
 export class Application {
     constructor({ app, schoolRouter, teacherRouter, userRouter }) {
