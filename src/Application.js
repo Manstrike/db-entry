@@ -1,4 +1,4 @@
-const PORT = 80;
+const PORT = process.env.PORT || 5000;
 
 export class Application {
     constructor({ app, schoolRouter, teacherRouter, userRouter }) {
