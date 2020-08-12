@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
+import http from 'http';
 
 import { EntityFactory } from './src/utils/EntityFactory.js';
 import { IdGenerator } from './src/utils/IdGenerator.js';
