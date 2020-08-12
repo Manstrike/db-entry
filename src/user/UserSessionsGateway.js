@@ -3,11 +3,24 @@ export class UserSessionsGateway {
         this._dbConnection = dbConnection;
     }
     async setStart(userId, time) {
-        console.log({userId, time})
         const connection = await this._dbConnection.getConnection();
+        
+
         const query = `
             INSERT user_sessions (user_id, started_at)
             VALUES (${userId}, '${time}')
+        `;
+
+        return await connection.execute(query);
+    }
+
+    async unfinishedUserSessions(userId) {
+        const connection = await this._dbConnection.getConnection();
+
+        const query = `
+            SELECT * 
+            FROM user_sessions
+            WHERE user_id = ${userId} AND finished_at IS NULL
         `;
 
         return await connection.execute(query);
@@ -38,14 +51,14 @@ export class UserSessionsGateway {
     async getAllSessionByUser(userId) {
         const connection = await this._dbConnection.getConnection();
         const query = `
-            SELECT session_length
+            SELECT SUM(session_length)
             FROM user_sessions
             WHERE user_id = ${userId}
         `;
 
         const [rows] = await connection.execute(query);
 
-        return rows;
+        return rows[0];
     }
 
     async getAllSessions() {

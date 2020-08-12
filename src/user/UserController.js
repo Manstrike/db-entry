@@ -35,6 +35,11 @@ export class UserController {
     }
 
     async userStartToWork(userId, startTime) {
+        const [unfinishedSessions] = await this._userSessionsGateway.unfinishedUserSessions(userId);
+        if (unfinishedSessions.length > 0) {
+            await this.userFinishToWork(userId, startTime);
+        }
+
         return await this._userSessionsGateway.setStart(userId, startTime);
     }
 
@@ -46,8 +51,8 @@ export class UserController {
         return await this._userSessionsGateway.setSessionLength(id, sessionLength);
     }
 
-    async getAllSessions() {
-        return await this._userSessionsGateway.getAllSessions();
+    async getAllSessions(userId) {
+        return await this._userSessionsGateway.getAllSessions(userId);
     }
 
     async _calculateWorkingTime(userStartedAt, userFinishedAt) {

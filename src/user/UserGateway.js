@@ -60,10 +60,15 @@ export class UserGateway {
         const connection = await this._dbConnection.getConnection();
         
         const query = `
-            SELECT *
+            SELECT users.*, SUM(user_sessions.session_length) as worked_total
             FROM users
+            LEFT JOIN user_sessions ON
+                users.id = user_sessions.user_id
+            GROUP BY users.id
         `;
 
-        return await connection.execute(query);
+        const [rows] = await connection.execute(query);
+
+        return rows;
     }
 }

@@ -73,6 +73,7 @@ export class UserRouter {
         
         router.post('/time/start', async (req, res) => {
             const { userId, startTime } = req.body;
+            console.log(req.body)
             if (!userId || !startTime) return res.sendStatus(400);
         
             try {
@@ -86,6 +87,7 @@ export class UserRouter {
 
         router.post('/time/finish', async (req, res) => {
             const { userId, finishTime } = req.body;
+            console.log(req.body)
             if (!userId || !finishTime) return res.sendStatus(400);
         
             try {

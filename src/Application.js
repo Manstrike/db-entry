@@ -13,6 +13,6 @@ export class Application {
         this._app.use('/teacher', this._teacherRouter);
         this._app.use('/user', this._userRouter);
         
-        this._app.listen(PORT, () => console.log('running'));
+        this._app.listen(PORT, () => console.log('running on ', PORT));
     }
 }
