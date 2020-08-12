@@ -16,14 +16,14 @@ export class TeacherController {
             .setGender(data.gender)
             .setPosition(data.position)
             .setSchool(data.school)
-            .setSchoolBuilding(data.school_building)
+            .setSchoolBuilding(data.building)
             .setSubject(data.subject)
             .setEmail(data.email)
             .getPlainObject();
 
         if (data.id) {
             const rowExists = await this.get(data.id);
-            teacher.id = data.id;
+            teacher.id = rowExists.id;
             return await this._teacherGateway.update(teacher);
         }
         
