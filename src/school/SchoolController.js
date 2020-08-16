@@ -7,6 +7,7 @@ export class SchoolController {
     }
 
     async create(data) {
+        console.log({data})
         const school = this._entityFactory.createSchool()
             .setLevel(data.level)
             .setCommunity(data.community)
@@ -16,10 +17,31 @@ export class SchoolController {
             .setWebsite(data.website)
             .setEmail(data.email)
             .setTelephone(data.telephone)
+            .setMunicipality(data.municipality)
             .getPlainObject();
-        const {insertId} = await this._gateway.create(school);
+
+        let insertId;
+        if (data.id) {
+            const entryExists = await this._gateway.read(data.id);
+            if (entryExists) {
+                const newSchool = {
+                    ...school,
+                    id: data.id
+                };
+
+                const row = await this._gateway.update(newSchool);
+                insertId = data.id;
+            }
+        }
+
+        if (!insertId) {
+            const row = await this._gateway.create(school);
+            insertId = row.insertId;
+        }
 
         if (insertId && data.schoolBuildings) {
+            console.log('got here')
+
             for (const building of data.schoolBuildings) {
                 await this._schoolBuildingsGateway.setBuilding(insertId, building);
             }

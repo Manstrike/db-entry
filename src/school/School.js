@@ -17,6 +17,15 @@ export class School {
         return this._community;
     }
 
+    setMunicipality(value) {
+        this._municipality = value;
+        return this;
+    }
+
+    get municipality() {
+        return this._municipality;
+    }
+
     setStreet(value) {
         this._street = value;
         return this;
@@ -75,6 +84,7 @@ export class School {
         return {
             level: this.level,
             community: this.community,
+            municipality: this.municipality,
             street: this.street,
             postalCode: this.postalCode,
             city: this.city,

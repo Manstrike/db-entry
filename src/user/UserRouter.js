@@ -13,8 +13,8 @@ export class UserRouter {
 
             try {
                 await this._userController.createUser(req.body);
-            } catch (e) {
-                return res.status(500).json(e);
+            } catch (error) {
+                return res.status(500).json(error);
             }
 
             return res.sendStatus(200);
@@ -33,7 +33,7 @@ export class UserRouter {
         });
 
         router.post('/login', async (req,res) => {
-            const { name, password } = req.body;
+            const { name } = req.body;
             if (!name) return res.sendStatus(400);
 
             let data;
@@ -44,6 +44,10 @@ export class UserRouter {
                 return res.sendStatus(500).json(error);
             }
 
+            if (!data) {
+                return res.sendStatus(400);
+            }
+
             res.json(data);
         });
 
@@ -52,7 +56,7 @@ export class UserRouter {
             try {
                 data = await this._userController.getAllUsers();
             } catch (error) {
-                return res.sendStatus(500).json(error);
+                return res.status(500).json(error);
             }
 
             return res.json(data);

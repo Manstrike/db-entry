@@ -6,6 +6,12 @@ export class UserGateway {
     async create(data) {
         const connection = await this._dbConnection.getConnection();
         const {name, password} = data;
+
+        const userExists = await this.readByName(name);
+        if (userExists) {
+            throw new Error('User already exists')
+        }
+
         const role = data.role ? data.role : 'employee';
         const query = `
             INSERT users(name, password, role)
@@ -60,10 +66,9 @@ export class UserGateway {
         const connection = await this._dbConnection.getConnection();
         
         const query = `
-            SELECT users.*, SUM(user_sessions.session_length) as worked_total
-            FROM users
-            LEFT JOIN user_sessions ON
-                users.id = user_sessions.user_id
+            SELECT users.*, SUM(DISTINCT session_length) as worked_total, COUNT(DISTINCT users_to_entries.id) as entered FROM users
+            LEFT JOIN user_sessions ON users.id = user_sessions.user_id
+            LEFT JOIN users_to_entries ON users.id = users_to_entries.user_id
             GROUP BY users.id
         `;
 

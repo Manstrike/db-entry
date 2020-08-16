@@ -5,7 +5,7 @@ export class TeacherGateway {
         this._dbConnection = dbConnection;
     }
 
-    async create(teacher) {
+    async create(teacher, authorId) {
         const connection = await this._dbConnection.getConnection();
         const query = `
             INSERT teachers (firstName, secondName, gender, position, school, school_building, subject, email)
@@ -15,8 +15,17 @@ export class TeacherGateway {
                 '${teacher.subject}', '${teacher.email}'
             )
         `;
-
-        return await connection.execute(query);
+        const [{ insertId }] =  await connection.execute(query);
+        if (insertId) {
+            const insertIntoStatsTable = `
+                INSERT users_to_entries (user_id, entry_id)
+                VALUES (
+                    ${authorId}, ${insertId}
+                )    
+            `;
+            
+            return await connection.execute(insertIntoStatsTable);
+        }
     }
 
     async update(teacher) {
@@ -50,25 +59,30 @@ export class TeacherGateway {
         return rows[0];
     }
 
-    async readByBuilding(schoolId, building) {
+    async readByBuilding(schoolId, building, userId) {
         const connection = await this._dbConnection.getConnection();
         const query = `
             SELECT *
             FROM teachers
-            WHERE   school = ${schoolId} 
+            LEFT JOIN users_to_entries 
+                ON teachers.id = users_to_entries.entry_id
+            WHERE school = ${schoolId} 
                 AND school_building = ${building}
+                AND users_to_entries.user_id = ${userId}
         `;
 
         const [ rows ] = await connection.execute(query);
         return rows;
     }
 
-    async readBySchool(schoolId) {
+    async readBySchool(schoolId, userId) {
         const connection = await this._dbConnection.getConnection();
         const query = `
             SELECT *
             FROM teachers
-            WHERE   school = ${schoolId} 
+            LEFT JOIN users_to_entries 
+                    ON teachers.id = users_to_entries.entry_id
+            WHERE school = ${schoolId} AND users_to_entries.user_id = ${userId}
         `;
 
         const [ rows ] = await connection.execute(query);

@@ -28,17 +28,17 @@ export class TeacherRouter {
             return res.json(data);
         });
 
-        router.get('/building/:school/:id', async (req, res) => {
-            if (!req.params.id || !req.params.school) return res.sendStatus(400);
+        router.get('/building/:school/:id/:userId', async (req, res) => {
+            if (!req.params.id || !req.params.school || !req.params.userId) return res.sendStatus(400);
 
-            const data = await this._teacherController.getByBuilding(req.params.school, req.params.id);
+            const data = await this._teacherController.getByBuilding(req.params.school, req.params.id, req.params.userId);
             return res.json(data);
         });
 
-        router.get('/school/:id', async (req, res) => {
-            if (!req.params.id) return res.sendStatus(400);
+        router.get('/school/:id/:userId', async (req, res) => {
+            if (!req.params.id || !req.params.userId) return res.sendStatus(400);
 
-            const data = await this._teacherController.getBySchool(req.params.id);
+            const data = await this._teacherController.getBySchool(req.params.id, req.params.userId);
             return res.json(data);
         });
 

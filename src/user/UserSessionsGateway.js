@@ -5,7 +5,6 @@ export class UserSessionsGateway {
     async setStart(userId, time) {
         const connection = await this._dbConnection.getConnection();
         
-
         const query = `
             INSERT user_sessions (user_id, started_at)
             VALUES (${userId}, '${time}')

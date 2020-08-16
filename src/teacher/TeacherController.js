@@ -9,6 +9,9 @@ export class TeacherController {
 
     async create(data) {
         if (!data.school && !data.building) throw new Error('Neither school of building was provided');
+
+        const author = data.author;
+        console.log({author})
         
         const teacher = this._entityFactory.createTeacher()
             .setFirstName(data.firstName)
@@ -27,7 +30,7 @@ export class TeacherController {
             return await this._teacherGateway.update(teacher);
         }
         
-        return await this._teacherGateway.create(teacher);
+        return await this._teacherGateway.create(teacher, author.id);
     }
 
     async get(id) {
@@ -38,11 +41,11 @@ export class TeacherController {
         return await this._teacherGateway.readByEmail(email);
     }
 
-    async getByBuilding(schoolId, building) {
-        return await this._teacherGateway.readByBuilding(schoolId, building);
+    async getByBuilding(schoolId, building, userId) {
+        return await this._teacherGateway.readByBuilding(schoolId, building, userId);
     }
 
-    async getBySchool(schoolId) {
-        return await this._teacherGateway.readBySchool(schoolId);
+    async getBySchool(schoolId, userId) {
+        return await this._teacherGateway.readBySchool(schoolId, userId);
     }
 }

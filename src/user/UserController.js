@@ -18,9 +18,8 @@ export class UserController {
             .setPassword(data.password)
             .setRole(data.role)
             .getPlainObject();
-
         try {
-            this._userGateway.create(user);
+            await this._userGateway.create(user);
         } catch (error) {
             throw new Error(error);
         }
