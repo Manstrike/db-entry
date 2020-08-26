@@ -51,7 +51,6 @@ const emailGenerator = new EmailGenerator();
 const schoolController = new SchoolController({
     gateway: schoolGateway,
     schoolBuildingsGateway,
-    shortId: idGenerator,
     entityFactory
 });
 const teacherController = new TeacherController({

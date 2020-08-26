@@ -1,13 +1,11 @@
 export class SchoolController {
-    constructor({ gateway, schoolBuildingsGateway, shortId, entityFactory }) {
+    constructor({ gateway, schoolBuildingsGateway, entityFactory }) {
         this._gateway = gateway;
         this._entityFactory = entityFactory;
         this._schoolBuildingsGateway = schoolBuildingsGateway;
-        this._shortId = shortId;
     }
 
     async create(data) {
-        console.log({data})
         const school = this._entityFactory.createSchool()
             .setLevel(data.level)
             .setCommunity(data.community)
@@ -40,8 +38,6 @@ export class SchoolController {
         }
 
         if (insertId && data.schoolBuildings) {
-            console.log('got here')
-
             for (const building of data.schoolBuildings) {
                 await this._schoolBuildingsGateway.setBuilding(insertId, building);
             }

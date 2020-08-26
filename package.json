@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node jasmine-run.js",
+    "test:watch": "nodemon --exec npm run test",
     "debug": "nodemon --ignore storage/ -r dotenv/config app.js",
     "migrate": "node node_modules/db-migrate/bin/db-migrate",
     "start": "node -r dotenv/config app.js"
@@ -16,6 +17,7 @@
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "babel-loader": "^8.1.0",
+    "jasmine": "^3.6.1",
     "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12"
   },
