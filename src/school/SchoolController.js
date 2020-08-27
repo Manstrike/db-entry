@@ -27,7 +27,7 @@ export class SchoolController {
                     id: data.id
                 };
 
-                const row = await this._gateway.update(newSchool);
+                await this._gateway.update(newSchool);
                 insertId = data.id;
             }
         }
