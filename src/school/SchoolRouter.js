@@ -27,6 +27,15 @@ export class SchoolRouter {
             return res.json(school);
         });
 
+        router.get('/kanton/:id', async (req, res) => {
+            if (!req.params.id) {
+                return res.sendStatus(400);
+            }
+            //TODO add special method getByKanton(kantonId)
+            //const school = await this._schoolController.get(req.params.id);
+            return res.json(school);
+        });
+
         router.post('/create', async (req, res) => {
             if (!req.body) return res.sendStatus(400);
 
